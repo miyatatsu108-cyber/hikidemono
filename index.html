@@ -22,34 +22,68 @@
       max-width: 600px;
       margin: 0 auto;
       background: var(--card-bg);
-      padding: 30px 20px;
+      padding: 25px 15px;
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
     h1 {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       text-align: center;
       margin-bottom: 8px;
     }
     p.sub {
       text-align: center;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: #666;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
     }
+    
+    /* 商品カードのデザイン */
     .item-card {
       border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 12px;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 15px;
       cursor: pointer;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
+      background: #fff;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+    .item-card:hover {
+      border-color: var(--primary-color);
+      background-color: #fcfdfc;
     }
     .item-card input[type="radio"] {
+      margin-top: 5px;
       margin-right: 12px;
-      transform: scale(1.2);
+      transform: scale(1.3);
+      flex-shrink: 0;
     }
+    .item-content {
+      flex-grow: 1;
+    }
+    .item-image {
+      width: 100%;
+      max-height: 180px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      background-color: #eee;
+    }
+    .item-title {
+      font-weight: bold;
+      font-size: 1rem;
+      margin-bottom: 4px;
+      color: #222;
+    }
+    .item-desc {
+      font-size: 0.82rem;
+      color: #666;
+      line-height: 1.4;
+    }
+
+    /* フォーム入力欄 */
     .input-group {
       margin-top: 30px;
       padding-top: 20px;
@@ -59,6 +93,7 @@
       display: block;
       font-weight: bold;
       margin-bottom: 8px;
+      font-size: 0.95rem;
     }
     input[type="text"] {
       width: 100%;
@@ -68,16 +103,31 @@
       font-size: 1rem;
       box-sizing: border-box;
     }
+
+    /* 注意書きエリア */
+    .notice-box {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background-color: #f7f7f7;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      color: #555555;
+      line-height: 1.6;
+    }
+    .notice-box p {
+      margin: 0;
+    }
+
     button.submit-btn {
       width: 100%;
       background-color: var(--primary-color);
       color: white;
       border: none;
       padding: 15px;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: bold;
       border-radius: 6px;
-      margin-top: 25px;
+      margin-top: 20px;
       cursor: pointer;
     }
     #completion-message {
@@ -95,21 +145,48 @@
 
   <form id="gift-form">
     <div class="item-list">
-      <label class="item-card"><input type="radio" name="item" value="01. カタログギフト Aコース" required> 01. カタログギフト Aコース</label>
-      <label class="item-card"><input type="radio" name="item" value="02. プレミアムペアグラス" required> 02. プレミアムペアグラス</label>
-      <label class="item-card"><input type="radio" name="item" value="03. ウッドプレートセット" required> 03. ウッドプレートセット</label>
-      <label class="item-card"><input type="radio" name="item" value="04. オーガニックタオルセット" required> 04. オーガニックタオルセット</label>
-      <label class="item-card"><input type="radio" name="item" value="05. カトラリーセット" required> 05. カトラリーセット</label>
-      <label class="item-card"><input type="radio" name="item" value="06. 卓上加湿器" required> 06. 卓上加湿器</label>
-      <label class="item-card"><input type="radio" name="item" value="07. アロマディフューザー" required> 07. アロマディフューザー</label>
-      <label class="item-card"><input type="radio" name="item" value="08. ドリップコーヒー＆焼き菓子セット" required> 08. ドリップコーヒー＆焼き菓子セット</label>
-      <label class="item-card"><input type="radio" name="item" value="09. 高級紅茶アソート" required> 09. 高級紅茶アソート</label>
-      <label class="item-card"><input type="radio" name="item" value="10. フルーツシロップ＆ジャム詰合せ" required> 10. フルーツシロップ＆ジャム詰合せ</label>
+
+      <!-- 商品1 -->
+      <label class="item-card">
+        <input type="radio" name="item" value="01. カタログギフト Aコース" required>
+        <div class="item-content">
+          <img src="https://via.placeholder.com/400x200?text=Item+01" alt="商品画像" class="item-image">
+          <div class="item-title">01. カタログギフト Aコース</div>
+          <div class="item-desc">全国のグルメや素敵な雑貨からお好きな1品をお選びいただけます。</div>
+        </div>
+      </label>
+
+      <!-- 商品2 -->
+      <label class="item-card">
+        <input type="radio" name="item" value="02. プレミアムペアグラス" required>
+        <div class="item-content">
+          <img src="https://via.placeholder.com/400x200?text=Item+02" alt="商品画像" class="item-image">
+          <div class="item-title">02. プレミアムペアグラス</div>
+          <div class="item-desc">職人が一つひとつ手作業で仕上げた、口当たりの良いペアグラスです。</div>
+        </div>
+      </label>
+
+      <!-- 商品3 -->
+      <label class="item-card">
+        <input type="radio" name="item" value="03. ウッドプレートセット" required>
+        <div class="item-content">
+          <img src="https://via.placeholder.com/400x200?text=Item+03" alt="商品画像" class="item-image">
+          <div class="item-title">03. ウッドプレートセット</div>
+          <div class="item-desc">温かみのある天然木を使用した、毎日の朝食にピッタリなプレートです。</div>
+        </div>
+      </label>
+
     </div>
 
     <div class="input-group">
       <label class="name-label" for="guest_name">お名前（フルネーム）</label>
       <input type="text" id="guest_name" name="guest_name" placeholder="例：山田 太郎" required>
+      
+      <div class="notice-box">
+        <p>※回答期日は2026年10月19日23:59とさせていただきます。</p>
+        <p>※期日までに未回答の場合、10.カタログギフトを準備させていただきます。</p>
+        <p>※同名で複数回送信された場合は、最新の記録に基づき準備させていただきます。ご了承の程宜しくお願いいたします。</p>
+      </div>
     </div>
 
     <button type="submit" class="submit-btn" id="submit-btn">決定して送信する</button>
@@ -122,7 +199,6 @@
 </div>
 
 <script>
-  // URLはすでに組み込み済みです
   const GAS_URL = "https://script.google.com/macros/s/AKfycbzf4RxLjz6slkZkkUxiUAed8y92I67vN8BZdEL84lLYdb10bkFYmQQGlY83Vbmh9apq/exec";
 
   const form = document.getElementById('gift-form');
@@ -161,3 +237,4 @@
 
 </body>
 </html>
+
