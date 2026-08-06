@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>引出物のご選択</title>
+  <style>
+    :root {
+      --primary-color: #7a8b7b;
+      --bg-color: #faf9f6;
+      --card-bg: #ffffff;
+      --text-color: #333333;
+    }
+    body {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px 10px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 30px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    h1 {
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    p.sub {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 30px;
+    }
+    .item-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+    .item-card input[type="radio"] {
+      margin-right: 12px;
+      transform: scale(1.2);
+    }
+    .input-group {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+    }
+    label.name-label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    button.submit-btn {
+      width: 100%;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 15px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 6px;
+      margin-top: 25px;
+      cursor: pointer;
+    }
+    #completion-message {
+      display: none;
+      text-align: center;
+      padding: 40px 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="form-container">
+  <h1>引出物のご選択</h1>
+  <p class="sub">お好みの品を1つお選びいただき、お名前をご入力の上送信してください。</p>
+
+  <form id="gift-form">
+    <div class="item-list">
+      <label class="item-card"><input type="radio" name="item" value="01. カタログギフト Aコース" required> 01. カタログギフト Aコース</label>
+      <label class="item-card"><input type="radio" name="item" value="02. プレミアムペアグラス" required> 02. プレミアムペアグラス</label>
+      <label class="item-card"><input type="radio" name="item" value="03. ウッドプレートセット" required> 03. ウッドプレートセット</label>
+      <label class="item-card"><input type="radio" name="item" value="04. オーガニックタオルセット" required> 04. オーガニックタオルセット</label>
+      <label class="item-card"><input type="radio" name="item" value="05. カトラリーセット" required> 05. カトラリーセット</label>
+      <label class="item-card"><input type="radio" name="item" value="06. 卓上加湿器" required> 06. 卓上加湿器</label>
+      <label class="item-card"><input type="radio" name="item" value="07. アロマディフューザー" required> 07. アロマディフューザー</label>
+      <label class="item-card"><input type="radio" name="item" value="08. ドリップコーヒー＆焼き菓子セット" required> 08. ドリップコーヒー＆焼き菓子セット</label>
+      <label class="item-card"><input type="radio" name="item" value="09. 高級紅茶アソート" required> 09. 高級紅茶アソート</label>
+      <label class="item-card"><input type="radio" name="item" value="10. フルーツシロップ＆ジャム詰合せ" required> 10. フルーツシロップ＆ジャム詰合せ</label>
+    </div>
+
+    <div class="input-group">
+      <label class="name-label" for="guest_name">お名前（フルネーム）</label>
+      <input type="text" id="guest_name" name="guest_name" placeholder="例：山田 太郎" required>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submit-btn">決定して送信する</button>
+  </form>
+</div>
+
+<div class="container" id="completion-message">
+  <h2>ご回答ありがとうございました</h2>
+  <p>選択結果を送信いたしました。</p>
+</div>
+
+<script>
+  // URLはすでに組み込み済みです
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbzf4RxLjz6slkZkkUxiUAed8y92I67vN8BZdEL84lLYdb10bkFYmQQGlY83Vbmh9apq/exec";
+
+  const form = document.getElementById('gift-form');
+  const submitBtn = document.getElementById('submit-btn');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = '送信中...';
+
+    const formData = new FormData(form);
+
+    fetch(GAS_URL, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.result === 'success') {
+        document.getElementById('form-container').style.display = 'none';
+        document.getElementById('completion-message').style.display = 'block';
+      } else {
+        alert('エラーが発生しました。');
+        submitBtn.disabled = false;
+        submitBtn.textContent = '決定して送信する';
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('通信エラーが発生しました。');
+      submitBtn.disabled = false;
+      submitBtn.textContent = '決定して送信する';
+    });
+  });
+</script>
+
+</body>
+</html>
