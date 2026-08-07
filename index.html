@@ -89,13 +89,16 @@
       padding-top: 20px;
       border-top: 1px solid #eee;
     }
-    label.name-label {
+    .field-block {
+      margin-bottom: 18px;
+    }
+    label.input-label {
       display: block;
       font-weight: bold;
       margin-bottom: 8px;
       font-size: 0.95rem;
     }
-    input[type="text"] {
+    input[type="text"], input[type="email"] {
       width: 100%;
       padding: 12px;
       border: 1px solid #ccc;
@@ -249,8 +252,15 @@
     </div>
 
     <div class="input-group">
-      <label class="name-label" for="guest_name">お名前（フルネーム）</label>
-      <input type="text" id="guest_name" name="guest_name" placeholder="例：山田 太郎" required>
+      <div class="field-block">
+        <label class="input-label" for="guest_name">お名前（フルネーム）</label>
+        <input type="text" id="guest_name" name="guest_name" placeholder="例：山田 太郎" required>
+      </div>
+
+      <div class="field-block">
+        <label class="input-label" for="guest_email">メールアドレス（任意：控え送信用）</label>
+        <input type="email" id="guest_email" name="guest_email" placeholder="例：example@email.com">
+      </div>
       
       <div class="notice-box">
         <p>※回答期限は10月19日23時59分とさせていただきます。</p>
@@ -266,6 +276,7 @@
 <div class="container" id="completion-message">
   <h2>ご回答ありがとうございました</h2>
   <p>選択結果を送信いたしました。</p>
+  <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">メールアドレスを入力された方には、選択内容の控えメールをお送りしております。</p>
 </div>
 
 <script>
