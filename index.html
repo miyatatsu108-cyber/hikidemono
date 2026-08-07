@@ -294,18 +294,12 @@
 
     fetch(GAS_URL, {
       method: 'POST',
-      body: formData
+      body: formData,
+      mode: 'no-cors'
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.result === 'success') {
-        document.getElementById('form-container').style.display = 'none';
-        document.getElementById('completion-message').style.display = 'block';
-      } else {
-        alert('エラーが発生しました。');
-        submitBtn.disabled = false;
-        submitBtn.textContent = '決定して送信する';
-      }
+    .then(() => {
+      document.getElementById('form-container').style.display = 'none';
+      document.getElementById('completion-message').style.display = 'block';
     })
     .catch(error => {
       console.error('Error:', error);
@@ -318,5 +312,3 @@
 
 </body>
 </html>
-
-
