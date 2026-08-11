@@ -13,13 +13,14 @@
   <style>
     :root {
       /* アピアランス：アンダーズ東京×くすみクリスマスのカラーパレット */
-      --primary-color: #7d3c45;      /* 深みのあるシックなボルドー（メインカラー） */
+      --primary-color: #7d3c45;      /* 深みのあるシックなボルドー */
       --primary-hover: #632d35;      /* ホバー時の濃いボルドー */
-      --accent-green: #526353;       /* くすみセージグリーン（クリスマスのもみの木） */
-      --bg-color: #f7f5f2;           /* 温かみのあるウォームグレー・アイボリー */
+      --accent-green: #526353;       /* くすみセージグリーン */
+      --bg-color: #f7f5f2;           /* アイボリー・ウォームグレー */
       --card-bg: #ffffff;
-      --text-color: #2b2b2b;          /* 墨色に近い柔らかいブラック */
-      --border-color: #e5dfd8;        /* 上品なニュートラルベージュの枠線 */
+      --text-color: #2b2b2b;          /* 墨色 */
+      --border-color: #e5dfd8;        /* ニュートラルベージュ */
+      --tag-bg: #efebe4;              /* タグの背景色（くすみベージュ） */
     }
 
     body {
@@ -27,7 +28,7 @@
       background-color: var(--bg-color);
       color: var(--text-color);
       margin: 0;
-      padding: 30px 12px;
+      padding: 25px 12px;
       line-height: 1.6;
     }
 
@@ -35,27 +36,35 @@
       max-width: 600px;
       margin: 0 auto;
       background: var(--card-bg);
-      padding: 35px 22px;
+      padding: 30px 20px;
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
       border: 1px solid var(--border-color);
     }
 
+    /* タイトルの改行を防ぐためフォントサイズを1.25remに調整 */
     h1 {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: 700;
       text-align: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       color: var(--primary-color);
-      letter-spacing: 0.05em;
+      letter-spacing: 0.03em;
+      white-space: nowrap; /* 可能な限り改行を防止 */
+    }
+
+    @media (max-width: 380px) {
+      h1 {
+        font-size: 1.1rem; /* 非常に画面幅が狭いスマホ用 */
+      }
     }
 
     p.sub {
       text-align: center;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: #666;
-      margin-bottom: 30px;
-      letter-spacing: 0.03em;
+      margin-bottom: 28px;
+      letter-spacing: 0.02em;
     }
     
     /* 商品カードのデザイン */
@@ -69,6 +78,7 @@
       align-items: flex-start;
       background: #fff;
       transition: all 0.25s ease;
+      position: relative;
     }
 
     .item-card:hover {
@@ -80,10 +90,10 @@
 
     .item-card input[type="radio"] {
       margin-top: 6px;
-      margin-right: 14px;
+      margin-right: 12px;
       transform: scale(1.3);
       flex-shrink: 0;
-      accent-color: var(--primary-color); /* ラジオボタンのチェック色をボルドーに */
+      accent-color: var(--primary-color);
     }
 
     .item-content {
@@ -99,16 +109,45 @@
       background-color: #f2efe9;
     }
 
+    /* 商品タグのスタイル */
+    .item-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background-color: var(--tag-bg);
+      color: #555;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    /* おすすめタグなどの色バリエーション */
+    .tag.green {
+      background-color: #e8eee8;
+      color: var(--accent-green);
+    }
+
+    .tag.red {
+      background-color: #f7ebeb;
+      color: var(--primary-color);
+    }
+
     .item-title {
       font-weight: 600;
-      font-size: 1.05rem;
+      font-size: 1.02rem;
       margin-bottom: 6px;
       color: var(--text-color);
       letter-spacing: 0.02em;
     }
 
     .item-desc {
-      font-size: 0.83rem;
+      font-size: 0.82rem;
       color: #666;
       line-height: 1.5;
     }
@@ -164,7 +203,7 @@
       min-height: 85px;
     }
 
-    /* 注意書きエリア（優しく洗練されたセージグリーン調） */
+    /* 注意書きエリア */
     .notice-box {
       margin-top: 15px;
       padding: 12px 14px;
@@ -180,7 +219,7 @@
       margin: 0;
     }
 
-    /* ボタン（落ち着いたボルドーに、洗練されたホバー効果） */
+    /* ボタン */
     button.submit-btn {
       width: 100%;
       background-color: var(--primary-color);
@@ -191,7 +230,7 @@
       font-weight: 600;
       font-family: inherit;
       letter-spacing: 0.08em;
-      border-radius: 30px; /* 少し丸みを持たせてエレガントに */
+      border-radius: 30px;
       margin-top: 25px;
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(125, 60, 69, 0.2);
@@ -231,6 +270,10 @@
         <input type="radio" name="item" value="01. 貴方のためのFEILERハンカチーフ" required>
         <div class="item-content">
           <img src="images~2.jpeg" alt="商品画像" class="item-image">
+          <div class="item-tags">
+            <span class="tag red">新婦おすすめ</span>
+            <span class="tag">オリジナル選定</span>
+          </div>
           <div class="item-title">01. 貴方のためのFEILERハンカチーフ</div>
           <div class="item-desc">私たちが、貴方のイメージに合うモチーフのFEILERハンカチーフを選びます。</div>
         </div>
@@ -241,7 +284,11 @@
         <input type="radio" name="item" value="02. 蔵前のコーヒー・焼き菓子セット" required>
         <div class="item-content">
           <img src="1786421420437.png" alt="商品画像" class="item-image">
-          <div class="item-title">02. 蔵前のコーヒー・焼き菓子セット</div>
+          <div class="item-tags">
+            <span class="tag green">蔵前ゆかり</span>
+            <span class="tag">カフェ・スイーツ</span>
+          </div>
+          <div class="item-title">02. 蔵前コーヒー・焼き菓子セット</div>
           <div class="item-desc">私たちの居住地である蔵前のカフェ「コフィノワ」のコーヒー豆と、パティスリー「菓子屋シノノメ」の焼き菓子のセットです。</div>
         </div>
       </label>
@@ -251,8 +298,12 @@
         <input type="radio" name="item" value="03. アンダーズ東京 ルームフレグランス" required>
         <div class="item-content">
           <img src="380de61be31bc39f7e06aa2ee396ba81-scaled.jpg" alt="商品画像" class="item-image">
-          <div class="item-title">03. アンダーズ東京 ルームフレグランス</div>
-          <div class="item-desc">アンダーズでは春は「さくら」、夏は「竹」、秋は「稲穂」、冬は「柚子」の香りが使用されており、ご希望の香りを準備します（おまかせも可）。</div>
+          <div class="item-tags">
+            <span class="tag red">ホテル限定</span>
+            <span class="tag">アロマ</span>
+          </div>
+          <div class="item-title">03. Andaz ルームフレグランス</div>
+          <div class="item-desc">Andazでは春は「さくら」、夏は「竹」、秋は「稲穂」、冬は「柚子」の香りが使用されており、ご希望の香りを準備します（おまかせも可）。</div>
         </div>
       </label>
 
@@ -261,6 +312,10 @@
         <input type="radio" name="item" value="04. TENERITA フェイスタオル" required>
         <div class="item-content">
           <img src="download_004f14a5-8e0d-4525-8ef8-dab6e8fb9570~2.jpg" alt="商品画像" class="item-image">
+          <div class="item-tags">
+            <span class="tag green">愛用品</span>
+            <span class="tag">オーガニック</span>
+          </div>
           <div class="item-title">04. TENERITA フェイスタオル</div>
           <div class="item-desc">私たちも愛用する、TENERITAのフェイスタオル。家のタオルを全てTENERITAにしたくなります。</div>
         </div>
@@ -271,6 +326,10 @@
         <input type="radio" name="item" value="05. ヘアケア系（早希）" required>
         <div class="item-content">
           <img src="https://via.placeholder.com/400x200?text=Item+05" alt="商品画像" class="item-image">
+          <div class="item-tags">
+            <span class="tag red">新婦セレクト</span>
+            <span class="tag">ビューティー</span>
+          </div>
           <div class="item-title">05. ヘアケア系（早希）</div>
           <div class="item-desc">早希ちゃんのオススメヘアケアグッズ</div>
         </div>
@@ -281,6 +340,10 @@
         <input type="radio" name="item" value="06. 八代目儀兵衛 厳選お米セット" required>
         <div class="item-content">
           <img src="gi-t25_slide01.jpg" alt="商品画像" class="item-image">
+          <div class="item-tags">
+            <span class="tag">グルメ</span>
+            <span class="tag">京都精米</span>
+          </div>
           <div class="item-title">06. 八代目儀兵衛 お米・海苔セット</div>
           <div class="item-desc">京都の有名精米店「八代目儀兵衛」のお米と海苔のセットです。ちなみに新婦は京都が大好き。</div>
         </div>
@@ -291,7 +354,11 @@
         <input type="radio" name="item" value="07. 飛田柑橘園 柑橘オリーブオイルセット" required>
         <div class="item-content">
           <img src="original.jpeg" alt="商品画像" class="item-image">
-          <div class="item-title">07. 飛田柑橘園 柑橘オリーブオイルセット</div>
+          <div class="item-tags">
+            <span class="tag green">旅の思い出</span>
+            <span class="tag">調味料</span>
+          </div>
+          <div class="item-title">07. 飛田柑橘園 柑橘オリーブオイル</div>
           <div class="item-desc">湯河原で出会った柑橘が香るオリーブオイルです。醤油と合わせてお刺身につけると絶品。</div>
         </div>
       </label>
@@ -301,6 +368,10 @@
         <input type="radio" name="item" value="08. 化粧品系（早希）" required>
         <div class="item-content">
           <img src="https://via.placeholder.com/400x200?text=Item+08" alt="商品画像" class="item-image">
+          <div class="item-tags">
+            <span class="tag red">新婦セレクト</span>
+            <span class="tag">コスメ</span>
+          </div>
           <div class="item-title">08. 化粧品系（早希）</div>
           <div class="item-desc">早希ちゃんのオススメ化粧品。</div>
         </div>
@@ -311,7 +382,11 @@
         <input type="radio" name="item" value="09. OSAJIコンディショニングセット" required>
         <div class="item-content">
           <img src="1786151628050.jpg" alt="商品画像" class="item-image">
-          <div class="item-title">09. OSAJIコンディショニングセット</div>
+          <div class="item-tags">
+            <span class="tag green">新郎おすすめ</span>
+            <span class="tag">スキンケア</span>
+          </div>
+          <div class="item-title">09. OSAJI美容液・パックセット</div>
           <div class="item-desc">新郎オススメの、OSAJIの美容液とクレイパックのセット。メンズにもオススメです。</div>
         </div>
       </label>
@@ -320,6 +395,10 @@
       <label class="item-card">
         <input type="radio" name="item" value="10. カタログギフト" required>
         <div class="item-content">          
+          <div class="item-tags">
+            <span class="tag">定番</span>
+            <span class="tag">選択自由</span>
+          </div>
           <div class="item-title">10. カタログギフト</div>
           <div class="item-desc">グルメや雑貨からお好きな一品をお選びいただけるカタログギフトです。</div>
         </div>
