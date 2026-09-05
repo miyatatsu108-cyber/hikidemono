@@ -20,6 +20,8 @@
       --card-bg: #ffffff;
       --text-color: #2b2b2b;          /* 墨色 */
       --border-color: #e5dfd8;        /* ニュートラルベージュ */
+      --selected-bg: #faf3f3;         /* 選択中カードの背景色 */
+      --danger-color: #a83c3c;        /* 期限が迫っている時の警告色 */
     }
 
     body {
@@ -62,10 +64,40 @@
       text-align: center;
       font-size: 0.82rem;
       color: #666;
-      margin-bottom: 28px;
+      margin-bottom: 18px;
       letter-spacing: 0.02em;
     }
-    
+
+    /* 期限バッジ */
+    .deadline-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background-color: #f3f5f3;
+      border: 1px solid var(--accent-green);
+      color: var(--accent-green);
+      border-radius: 30px;
+      padding: 8px 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      max-width: fit-content;
+      margin: 0 auto 26px auto;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .deadline-badge.urgent {
+      background-color: #faf0f0;
+      border-color: var(--danger-color);
+      color: var(--danger-color);
+    }
+
+    .deadline-badge .days-num {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
     /* 商品カードのデザイン */
     .item-card {
       border: 1px solid var(--border-color);
@@ -85,6 +117,17 @@
       background-color: #fafdff;
       box-shadow: 0 4px 12px rgba(82, 99, 83, 0.08);
       transform: translateY(-2px);
+    }
+
+    /* 選択中カードのスタイル(JSでselectedクラスを付与) */
+    .item-card.selected {
+      border-color: var(--primary-color);
+      background-color: var(--selected-bg);
+      box-shadow: 0 4px 14px rgba(125, 60, 69, 0.12);
+    }
+
+    .item-card.selected:hover {
+      background-color: var(--selected-bg);
     }
 
     .item-card input[type="radio"] {
@@ -231,6 +274,61 @@
       margin: 0;
     }
 
+    /* 選択済みミニプレビュー */
+    .selection-preview {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      margin-top: 25px;
+      padding: 12px 14px;
+      background-color: #fff;
+      border: 1px solid var(--primary-color);
+      border-radius: 10px;
+    }
+
+    .selection-preview.show {
+      display: flex;
+    }
+
+    .selection-preview .preview-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 6px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background-color: #f2efe9;
+    }
+
+    .selection-preview .preview-thumb.no-image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      color: #999;
+      text-align: center;
+    }
+
+    .selection-preview .preview-text {
+      flex-grow: 1;
+      min-width: 0;
+    }
+
+    .selection-preview .preview-label {
+      font-size: 0.7rem;
+      color: var(--accent-green);
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .selection-preview .preview-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-color);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     /* ボタン */
     button.submit-btn {
       width: 100%;
@@ -266,6 +364,108 @@
       font-size: 1.4rem;
       margin-bottom: 15px;
     }
+
+    /* 確認モーダル */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(43, 43, 43, 0.55);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 420px;
+      width: 100%;
+      padding: 28px 24px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-box h3 {
+      margin: 0 0 16px 0;
+      font-size: 1.1rem;
+      color: var(--primary-color);
+      text-align: center;
+    }
+
+    .modal-summary {
+      background-color: #faf8f5;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+    }
+
+    .modal-summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.85rem;
+      padding: 6px 0;
+    }
+
+    .modal-summary-row + .modal-summary-row {
+      border-top: 1px dashed var(--border-color);
+    }
+
+    .modal-summary-row .label {
+      color: #777;
+      flex-shrink: 0;
+    }
+
+    .modal-summary-row .value {
+      font-weight: 600;
+      text-align: right;
+      color: var(--text-color);
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .modal-buttons button {
+      flex: 1;
+      padding: 13px;
+      border-radius: 30px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.2s, transform 0.15s;
+    }
+
+    .modal-btn-back {
+      background-color: #f0ece6;
+      color: #5d5955;
+    }
+
+    .modal-btn-back:hover {
+      background-color: #e5dfd8;
+    }
+
+    .modal-btn-confirm {
+      background-color: var(--primary-color);
+      color: #fff;
+    }
+
+    .modal-btn-confirm:hover {
+      background-color: var(--primary-hover);
+    }
   </style>
 </head>
 <body>
@@ -274,6 +474,11 @@
   <h1>宮川家・池田家 引出物のご案内</h1>
   <p class="sub">以下よりお好みの品を1つお選びいただき、お名前・メールアドレス等をご入力の上送信してください。</p>
 
+  <div class="deadline-badge" id="deadline-badge">
+    <span>回答期限：10月19日(月) 23:59</span>
+    <span class="days-num" id="days-remaining-num"></span>
+  </div>
+
   <form id="gift-form">
     <div class="item-list">
 
@@ -281,7 +486,7 @@
       <label class="item-card">
         <input type="radio" name="item" value="01. 貴方のためのFEILERハンカチ" required>
         <div class="item-content">
-          <img src="images~2.jpeg" alt="商品画像" class="item-image">
+          <img src="images~2.jpeg" alt="貴方のためのFEILERハンカチ" class="item-image">
           <div class="item-tags">
             <span class="tag tag-gray">ファブリック</span>
             <span class="tag tag-bordeaux">新婦のオススメ</span>
@@ -295,7 +500,7 @@
       <label class="item-card">
         <input type="radio" name="item" value="02. Andaz ルームフレグランス" required>
         <div class="item-content">
-          <img src="380de61be31bc39f7e06aa2ee396ba81-scaled.jpg" alt="商品画像" class="item-image">
+          <img src="380de61be31bc39f7e06aa2ee396ba81-scaled.jpg" alt="Andaz ルームフレグランス" class="item-image">
           <div class="item-tags">
             <span class="tag tag-gray">フレグランス</span>
             <span class="tag tag-gold">新郎新婦の愛用品</span>
@@ -309,7 +514,7 @@
       <label class="item-card">
         <input type="radio" name="item" value="03. 蔵前ペアグラス&ティーセット" required>
         <div class="item-content">
-          <img src="1787056266019.png" alt="商品画像" class="item-image">
+          <img src="1787056266019.png" alt="蔵前ペアグラス&ティーセット" class="item-image">
           <div class="item-tags">
             <span class="tag tag-gray">グラス</span>
             <span class="tag tag-gold">新郎新婦の愛用品</span>
@@ -323,7 +528,7 @@
       <label class="item-card">
         <input type="radio" name="item" value="04. 八代目儀兵衛 星付き銘柄米セット" required>
         <div class="item-content">
-          <img src="gi-t25_slide01.jpg" alt="商品画像" class="item-image">
+          <img src="gi-t25_slide01.jpg" alt="八代目儀兵衛 星付き銘柄米セット" class="item-image">
           <div class="item-tags">
             <span class="tag tag-gray">グルメ</span>
             <span class="tag tag-gold">気になってます</span>
@@ -337,7 +542,7 @@
       <label class="item-card">
         <input type="radio" name="item" value="05. 飛田柑橘園 柑橘オリーブオイル" required>
         <div class="item-content">
-          <img src="original~2.jpeg" alt="商品画像" class="item-image">
+          <img src="original~2.jpeg" alt="飛田柑橘園 柑橘オリーブオイル" class="item-image">
           <div class="item-tags">
             <span class="tag tag-gray">グルメ</span>
             <span class="tag tag-blue">新郎のオススメ</span>
@@ -351,7 +556,7 @@
       <label class="item-card">
         <input type="radio" name="item" value="06. 虎ノ門きや おかき8種詰め合わせ" required>
         <div class="item-content">
-          <img src="1787005017306.png" alt="商品画像" class="item-image">
+          <img src="1787005017306.png" alt="虎ノ門きや おかき8種詰め合わせ" class="item-image">
           <div class="item-tags">
             <span class="tag tag-gray">グルメ</span>
             <span class="tag tag-gold">新郎新婦の愛用品</span>
@@ -365,7 +570,7 @@
       <label class="item-card">
         <input type="radio" name="item" value="07. 蔵前コーヒー・焼き菓子セット" required>
         <div class="item-content">
-          <img src="1786421420437.png" alt="商品画像" class="item-image">
+          <img src="1786421420437.png" alt="蔵前コーヒー・焼き菓子セット" class="item-image">
           <div class="item-tags">
             <span class="tag tag-gray">カフェ・スイーツ</span>
             <span class="tag tag-gold">新郎新婦の愛用品</span>
@@ -379,7 +584,7 @@
       <label class="item-card">
         <input type="radio" name="item" value="08. リケラエマルジョン　ヘアミルク" required>
         <div class="item-content">
-          <img src="1787047140431.png" alt="商品画像" class="item-image">
+          <img src="1787047140431.png" alt="リケラエマルジョン ヘアミルク" class="item-image">
           <div class="item-tags">
             <span class="tag tag-gray">美容アイテム</span>
             <span class="tag tag-pink">女性向け</span>
@@ -393,7 +598,7 @@
       <label class="item-card">
         <input type="radio" name="item" value="09. カバーマーク　トリートメント クレンジング ミルク" required>
         <div class="item-content">
-          <img src="1787047891271.jpg" alt="商品画像" class="item-image">
+          <img src="1787047891271.jpg" alt="カバーマーク トリートメント クレンジング ミルク" class="item-image">
           <div class="item-tags">
             <span class="tag tag-gray">美容アイテム</span>
             <span class="tag tag-pink">女性向け</span>
@@ -407,7 +612,7 @@
       <label class="item-card">
         <input type="radio" name="item" value="10. アルビオン スキコンローションマスク" required>
         <div class="item-content">
-          <img src="1787048193950.jpg" alt="商品画像" class="item-image">
+          <img src="1787048193950.jpg" alt="アルビオン スキコンローションマスク" class="item-image">
           <div class="item-tags">
             <span class="tag tag-gray">美容アイテム</span>
             <span class="tag tag-gold">男女兼用</span>
@@ -421,7 +626,7 @@
       <label class="item-card">
         <input type="radio" name="item" value="11. OSAJI美容液・パックセット" required>
         <div class="item-content">
-          <img src="1786151628050.jpg" alt="商品画像" class="item-image">
+          <img src="1786151628050.jpg" alt="OSAJI美容液・クレイパック" class="item-image">
           <div class="item-tags">
             <span class="tag tag-gray">美容アイテム</span>
             <span class="tag tag-blue">男性向け</span>
@@ -434,7 +639,7 @@
       <!-- 商品12: 定番カタログ -->
       <label class="item-card">
         <input type="radio" name="item" value="12. カタログギフト" required>
-        <div class="item-content">          
+        <div class="item-content">
           <div class="item-tags">
             <span class="tag tag-gray">定番</span>
             <span class="tag tag-gray">選択自由</span>
@@ -444,6 +649,15 @@
         </div>
       </label>
 
+    </div>
+
+    <!-- 選択済みミニプレビュー -->
+    <div class="selection-preview" id="selection-preview">
+      <img class="preview-thumb" id="preview-thumb" src="" alt="">
+      <div class="preview-text">
+        <div class="preview-label">選択中のギフト</div>
+        <div class="preview-title" id="preview-title"></div>
+      </div>
     </div>
 
     <div class="input-group">
@@ -462,7 +676,7 @@
         <div class="sub-label">引出物に関しての連絡事項があれば記載ください（例：コーヒーは豆のままを希望）</div>
         <textarea id="notes" name="notes" placeholder="自由にご記入ください"></textarea>
       </div>
-      
+
       <div class="notice-box">
         <p>※回答期限は10月19日23時59分とさせていただきます。</p>
         <p>※期限までに未回答の場合、12.カタログギフトを準備させていただきます。</p>
@@ -480,14 +694,100 @@
   <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">メールアドレスを入力された方には、選択内容の控えメールをお送りしております。</p>
 </div>
 
+<!-- 確認モーダル -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal-box">
+    <h3>この内容でよろしいですか？</h3>
+    <div class="modal-summary">
+      <div class="modal-summary-row">
+        <span class="label">お名前</span>
+        <span class="value" id="modal-name"></span>
+      </div>
+      <div class="modal-summary-row">
+        <span class="label">選択した引出物</span>
+        <span class="value" id="modal-item"></span>
+      </div>
+    </div>
+    <div class="modal-buttons">
+      <button type="button" class="modal-btn-back" id="modal-back-btn">戻って修正する</button>
+      <button type="button" class="modal-btn-confirm" id="modal-confirm-btn">送信する</button>
+    </div>
+  </div>
+</div>
+
 <script>
   const GAS_URL = "https://script.google.com/macros/s/AKfycbwLpgu_HZ5AggKA9_D4sSE8bt0Q3Xn40UOFWi-rKJxCbEjJDlDCIH4rXglzLZm7wctA/exec";
 
   const form = document.getElementById('gift-form');
   const submitBtn = document.getElementById('submit-btn');
+  const itemCards = document.querySelectorAll('.item-card');
+  const selectionPreview = document.getElementById('selection-preview');
+  const previewThumb = document.getElementById('preview-thumb');
+  const previewTitle = document.getElementById('preview-title');
+  const modal = document.getElementById('confirm-modal');
+  const modalName = document.getElementById('modal-name');
+  const modalItem = document.getElementById('modal-item');
+  const modalBackBtn = document.getElementById('modal-back-btn');
+  const modalConfirmBtn = document.getElementById('modal-confirm-btn');
 
-  form.addEventListener('submit', function(e) {
+  /* ---------- 1. 選択中カードの背景色 & 2. ミニプレビュー ---------- */
+  itemCards.forEach(card => {
+    const radio = card.querySelector('input[type="radio"]');
+    radio.addEventListener('change', () => {
+      itemCards.forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+
+      const titleEl = card.querySelector('.item-title');
+      const imgEl = card.querySelector('.item-image');
+
+      previewTitle.textContent = titleEl ? titleEl.textContent : radio.value;
+
+      if (imgEl) {
+        previewThumb.src = imgEl.src;
+        previewThumb.alt = titleEl ? titleEl.textContent : '';
+        previewThumb.classList.remove('no-image');
+      } else {
+        previewThumb.removeAttribute('src');
+        previewThumb.alt = '';
+        previewThumb.classList.add('no-image');
+        previewThumb.textContent = '画像なし';
+      }
+
+      selectionPreview.classList.add('show');
+    });
+  });
+
+  /* ---------- 3. 確認モーダル ---------- */
+  form.addEventListener('submit', function (e) {
     e.preventDefault();
+
+    const selectedRadio = form.querySelector('input[name="item"]:checked');
+    const guestName = document.getElementById('guest_name').value.trim();
+
+    if (!selectedRadio || !guestName) {
+      // ブラウザ標準のバリデーションメッセージを出す
+      form.reportValidity();
+      return;
+    }
+
+    modalName.textContent = guestName;
+    modalItem.textContent = selectedRadio.value;
+    modal.classList.add('show');
+  });
+
+  modalBackBtn.addEventListener('click', () => {
+    modal.classList.remove('show');
+  });
+
+  modal.addEventListener('click', (e) => {
+    // オーバーレイの背景クリックでも閉じる
+    if (e.target === modal) {
+      modal.classList.remove('show');
+    }
+  });
+
+  modalConfirmBtn.addEventListener('click', () => {
+    modal.classList.remove('show');
     submitBtn.disabled = true;
     submitBtn.textContent = '送信中...';
 
@@ -509,8 +809,34 @@
       submitBtn.textContent = '決定して送信する';
     });
   });
+
+  /* ---------- 4. 回答期限バッジ & 残り日数 ---------- */
+  (function updateDeadlineBadge() {
+    const now = new Date();
+
+    // 「10月19日 23:59」を今年の日付として設定。すでに過ぎていれば来年扱いにする。
+    let deadline = new Date(now.getFullYear(), 9, 19, 23, 59, 59); // 月は0始まりなので9=10月
+    if (deadline < now) {
+      deadline = new Date(now.getFullYear() + 1, 9, 19, 23, 59, 59);
+    }
+
+    const badge = document.getElementById('deadline-badge');
+    const daysNumEl = document.getElementById('days-remaining-num');
+
+    const diffMs = deadline - now;
+    const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffDays <= 0) {
+      daysNumEl.textContent = '本日締切';
+      badge.classList.add('urgent');
+    } else {
+      daysNumEl.textContent = `残り${diffDays}日`;
+      if (diffDays <= 7) {
+        badge.classList.add('urgent');
+      }
+    }
+  })();
 </script>
 
 </body>
 </html>
-
